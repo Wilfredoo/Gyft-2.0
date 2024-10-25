@@ -1,11 +1,17 @@
 # Node.js dependencies
 node_modules/
+gyft-backend/node_modules/
 
 # TypeScript build folder
 dist/
+gyft-backend/dist/
 
 # Environment variables
 .env
+gyft-backend/.env
 
 # Logs
 *.log
+
+# Firebase service account JSON
+gyft-backend/firebase-service-account.json
