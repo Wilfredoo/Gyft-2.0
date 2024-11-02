@@ -1,36 +1,35 @@
 import express, { Request, Response } from 'express'
 import Gift from '../models/Gift'
+import { verifyFirebaseIdToken } from '../authMiddleware';
+import { AuthenticatedRequest } from '../types';
 
 const router = express.Router()
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', verifyFirebaseIdToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
-
-        const { title, description, occasion, userId } = req.body
-
-        const newGift = new Gift({
-            title, description, occasion, userId
-        })
-
-        const savedGift = await newGift.save()
+        const { title, description, occasion, userId } = req.body;
+        const newGift = new Gift({ title, description, occasion, userId });
+        const savedGift = await newGift.save();
         res.status(201).json(savedGift);
     } catch (error) {
-        res.status(500).json({ message: 'Error creating gift', error })
+        res.status(500).json({ message: 'Error creating gift', error });
     }
-})
+});
 
-router.get('/:userId', async (req: Request, res: Response) => {
-    try {
+// router.get('/:userId', verifyFirebaseIdToken, async (req: AuthenticatedRequest, res: Response) => {
+//     try {
 
-        const gifts = await Gift.find(req.params.userId)
+//         const gifts = await Gift.find({ userId: req.params.userId })
 
-        if (!gifts.length) {
-            return res.status(404).json({ message: 'No gift found for this user' });
+//         if (!gifts.length) {
+//             return res.status(404).json({ message: 'No gift found for this user' });
 
-        }
-        res.status(200).json(gifts)
+//         }
+//         res.status(200).json(gifts)
 
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching gifts', error })
-    }
-})
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error fetching gifts', error })
+//     }
+// })
+
+export default router;

@@ -24,7 +24,18 @@ Gyft is a full-stack web application designed to help users create and share gif
   - Express.js
   - MongoDB with Mongoose
   - TypeScript
-  - Firebase for Authentication (optional)
+  - 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ for Authentication (optional)
   
 - **Frontend**:
   - React (with hooks)
