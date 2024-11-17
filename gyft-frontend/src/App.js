@@ -1,31 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
 import { auth } from "./firebaseConfig"; // adjust the path if necessary
-
+import PhoneAuth from './components/phoneAuth/phoneAuth';
 import React, { useEffect } from "react";
 
 
 
-  function App() {
-    useEffect(() => {
-      console.log("Firebase initialized with environment variables");
-    }, []);
+function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Welcome to Firebase Authentication</h1>
+      <PhoneAuth />
     </div>
   );
 }

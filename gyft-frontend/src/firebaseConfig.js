@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -10,14 +10,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-console.log("API Key:", process.env.REACT_APP_FIREBASE_API_KEY);
-console.log("Auth Domain:", process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
-console.log("Project ID:", process.env.REACT_APP_FIREBASE_PROJECT_ID);
-console.log("Storage Bucket:", process.env.REACT_APP_FIREBASE_STORAGE_BUCKET);
-console.log("Messaging Sender ID:", process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID);
-console.log("App ID:", process.env.REACT_APP_FIREBASE_APP_ID);
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export { auth, RecaptchaVerifier, signInWithPhoneNumber };
+export { getAuth, RecaptchaVerifier, signInWithPhoneNumber,PhoneAuthProvider, signInWithCredential };
