@@ -13,4 +13,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export { getAuth, RecaptchaVerifier, signInWithPhoneNumber,PhoneAuthProvider, signInWithCredential };
+export { auth, RecaptchaVerifier, signInWithPhoneNumber,PhoneAuthProvider, signInWithCredential };

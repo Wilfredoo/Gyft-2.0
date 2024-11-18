@@ -1,5 +1,14 @@
 import { Request } from 'express';
+import { admin } from '../src/firebase';
 
 export interface AuthenticatedRequest extends Request {
-    user?: any; // Adjust `any` to the actual user type if known
+    user?: any;
+}
+
+declare global {
+    namespace Express {
+        interface Request {
+            user?: admin.auth.DecodedIdToken;
+        }
+    }
 }

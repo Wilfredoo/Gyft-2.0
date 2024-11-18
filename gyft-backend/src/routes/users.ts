@@ -1,8 +1,22 @@
 import express, { Request, Response } from 'express'
 import User from '../models/User'
-import { verifyFirebaseIdToken } from '../authMiddleware';
+import { verifyFirebaseIdToken, AuthenticatedRequest } from '../authMiddleware';
 
 const router = express.Router()
+
+router.post('/', verifyFirebaseIdToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+
+    console.log("VERIFYYYYY TOKEN route has been called")
+    try {
+        res.status(200).json({
+            message: 'Token verified successfully',
+            user: req.user, // Access the decoded token attached by the middleware
+        });
+    } catch (error) {
+        console.error('Error verifying token:', error);
+        res.status(500).json({ message: 'Unexpected error occurred', error });
+    }
+});
 
 // router.post('/', verifyFirebaseIdToken, async (req, res) => {
 //     try {

@@ -1,0 +1,13 @@
+{
+  "name": "gyft-front-back",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "frontend": "npm start --prefix gyft-frontend",
+    "backend": "npm run dev --prefix gyft-backend",
+    "start": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

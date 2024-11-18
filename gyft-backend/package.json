@@ -5,23 +5,25 @@
   "directories": {
     "test": "tests"
   },
-"scripts": {
-  "dev": "nodemon src/server.ts",
-  "build": "tsc",
-  "start": "node dist/src/server.js",
-  "test": "jest"
-},
+  "scripts": {
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/src/server.js",
+    "test": "jest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "firebase-admin": "^12.7.0",
     "mongoose": "^8.8.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.8.6",

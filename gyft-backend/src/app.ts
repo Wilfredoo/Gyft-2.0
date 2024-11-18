@@ -3,6 +3,9 @@ import mongoose, { ConnectOptions } from 'mongoose'
 import dotenv from 'dotenv'
 import giftsRouter from './routes/gifts';
 import usersRouter from './routes/users'
+import verifyTokenRouter from './routes/users'
+
+import cors from 'cors';
 
 dotenv.config()
 
@@ -11,8 +14,15 @@ const app = express()
 //Middleware
 app.use(express.json())
 
+app.use(cors({
+    origin: 'http://localhost:3000',    
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+    allowedHeaders: ['Authorization', 'Content-Type'],  
+}));
+
 app.use('/api/gifts', giftsRouter);
 app.use('/api/users', usersRouter)
+app.use('/api/verify-token', verifyTokenRouter);
 
 
 console.log("mongo uri", process.env.MONGODB_URI)

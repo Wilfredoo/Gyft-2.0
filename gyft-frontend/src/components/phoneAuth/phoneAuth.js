@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from "./../../firebaseConfig";
+import { auth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from "./../../firebaseConfig";
 import axios from 'axios';
 
 function PhoneAuth() {
@@ -8,7 +8,6 @@ function PhoneAuth() {
     const testVerificationCode = "789654"; // This should match the test code in Firebase Console
 
     const [verificationId, setVerificationId] = useState("");
-    const auth = getAuth();
 
     const setupRecaptcha = () => {
         if (!window.recaptchaVerifier) {
@@ -57,15 +56,19 @@ function PhoneAuth() {
             signInWithCredential(auth, credential)
             .then((result) => {
                 result.user.getIdToken().then((idToken) => {
-                    axios.post('http://localhost:5000/verify-token', {
-                        token: idToken
+                    console.log("id token", idToken)
+                    axios.post('http://localhost:5000/api/verify-token', {}, {
+                        headers: {
+                            Authorization: `Bearer ${idToken}`, // Make sure to include "Bearer" and the token
+                        }
                     })
                     .then(response => {
-                        console.log("Backend response:", response.data);
+                        console.log('Backend response:', response.data);
                     })
                     .catch(error => {
-                        console.error("Error sending token to backend:", error);
+                        console.error('Error sending token to backend:', error);
                     });
+                    
                 });
             })
             .catch((error) => {
