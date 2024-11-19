@@ -48,7 +48,7 @@ function LandingPage() {
         </button>
         <input
           type="text"
-          placeholder="Search for a friend"
+          placeholder="Search for a friend by their username of phone number"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           style={{ marginRight: "10px", padding: "10px" }}
