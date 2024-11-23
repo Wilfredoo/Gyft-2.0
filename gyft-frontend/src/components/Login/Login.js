@@ -14,6 +14,8 @@ import {
   RecaptchaContainer,
 } from "./Styles";
 import countryCodes from "./CountryCodes"
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -58,20 +60,36 @@ function Login() {
 
   const verifyOtpAndLogin = () => {
     if (!otp || !verificationId) {
-      alert("Please enter the OTP sent to your phone.");
+      alert("Please enter the verification code sent to your phone.");
       return;
     }
 
-    auth
-      .signInWithCredential(
-        auth.PhoneAuthProvider.credential(verificationId, otp)
+    console.log("OTP entered by user:", otp); // Log OTP value
+    console.log("Verification ID:", verificationId); // Log verification ID
+    console.log("auth", auth)
+    console.log("PhoneAuthProvider", PhoneAuthProvider)
+
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      console.log("Credential created successfully:", credential); // Log credential creation
+
+
+    signInWithCredential(
+      auth, credential
       )
-      .then(() => {
+      .then((userCredential) => {
         console.log("Login successful");
+        console.log("User details:", userCredential); // Log user details
       })
-      .catch((error) => {
+      .catch((error) => { 
         console.error("Error during login:", error);
+        alert("Error during login: " + error.message);
+
       });
+    } catch (error) {
+      console.error("Error creating credential:", error); // Log credential creation errors
+      alert("Error creating credential: " + error.message);
+    }
   };
 
   return (
@@ -99,7 +117,7 @@ function Login() {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          <Button onClick={requestOTP}>Send OTP</Button>
+          <Button onClick={requestOTP}>Send Verification Code</Button>
           <RecaptchaContainer id="recaptcha-container"></RecaptchaContainer>
         </>
       )}
@@ -108,7 +126,7 @@ function Login() {
         <>
           <Input
             type="text"
-            placeholder="Enter OTP"
+            placeholder="Enter Verification Code"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />

@@ -99,7 +99,7 @@ function Signup() {
         <div>
           <input
             type="text"
-            placeholder="Enter OTP"
+            placeholder="Enter Verification Code"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
