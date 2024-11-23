@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: gyft-backend
-    env: node
-    buildCommand: cd gyft-backend && npm install && npm run build
-    startCommand: cd gyft-backend && npm run start
-    envVars:
-      - key: PORT
-        value: 5000

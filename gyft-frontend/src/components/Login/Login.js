@@ -1,11 +1,28 @@
 import React, { useState } from "react";
-import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../../src/firebaseConfig";
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../../../src/firebaseConfig";
+import {
+  LoginContainer,
+  Heading,
+  Label,
+  Select,
+  Input,
+  Button,
+  RecaptchaContainer,
+} from "./Styles";
+import countryCodes from "./CountryCodes"
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+49");
   const [verificationId, setVerificationId] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
+
+
 
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
@@ -24,9 +41,14 @@ function Login() {
       return;
     }
 
+    const fullPhoneNumber = `${countryCode}${phoneNumber.replace(
+      /[^0-9]/g,
+      ""
+    )}`;
+
     setupRecaptcha();
 
-    signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+    signInWithPhoneNumber(auth, fullPhoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
         setVerificationId(confirmationResult.verificationId);
         setStep(2);
@@ -42,12 +64,12 @@ function Login() {
       return;
     }
 
-    auth.signInWithCredential(
-      auth.PhoneAuthProvider.credential(verificationId, otp)
-    )
-      .then((result) => {
+    auth
+      .signInWithCredential(
+        auth.PhoneAuthProvider.credential(verificationId, otp)
+      )
+      .then(() => {
         console.log("Login successful");
-        // Redirect the user to the dashboard
       })
       .catch((error) => {
         console.error("Error during login:", error);
@@ -55,34 +77,47 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <LoginContainer>
+      <Heading>Login</Heading>
 
       {step === 1 && (
-        <div>
-          <input
+        <>
+          <Label>
+            Select Country:
+            <Select
+              value={countryCode}
+              onChange={(e) => setCountryCode(e.target.value)}
+            >
+              {countryCodes.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.label} ({country.code})
+                </option>
+              ))}
+            </Select>
+          </Label>
+          <Input
             type="text"
-            placeholder="Enter phone number"
+            placeholder="Enter phone number (e.g., 5551234567)"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          <button onClick={requestOTP}>Send OTP</button>
-          <div id="recaptcha-container"></div>
-        </div>
+          <Button onClick={requestOTP}>Send OTP</Button>
+          <RecaptchaContainer id="recaptcha-container"></RecaptchaContainer>
+        </>
       )}
 
       {step === 2 && (
-        <div>
-          <input
+        <>
+          <Input
             type="text"
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
-          <button onClick={verifyOtpAndLogin}>Verify and Login</button>
-        </div>
+          <Button onClick={verifyOtpAndLogin}>Verify and Login</Button>
+        </>
       )}
-    </div>
+    </LoginContainer>
   );
 }
 

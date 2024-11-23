@@ -1,73 +1,116 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
 
 function LandingPage() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = () => {
-    if (!currentUser) {
-      alert("Please log in to search for friends.");
-      return;
-    }
-    // Logic to search for a friend (e.g., make API call or update state)
-    console.log("Searching for:", searchQuery);
-    alert(`Searching for friend: ${searchQuery}`);
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
-  const handleGiftProfile = () => {
-    if (!currentUser) {
-      alert("Please log in to build your gift profile.");
-      navigate("/login");
-      return;
-    }
+  const handleAddGift = () => {
     navigate("/gift-profile");
   };
 
+  const handleViewWishes = () => {
+    navigate("/wish-list");
+  };
+
+  const handleShareLink = () => {
+    const shareLink = `${window.location.origin}/wish-list/${currentUser?.phoneNumber}`;
+    navigator.clipboard.writeText(shareLink);
+    alert("Your wish list link has been copied to the clipboard!");
+  };
+
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
-      {/* Welcome message based on authentication state */}
-      <h1>
-        Welcome, {currentUser ? currentUser.phoneNumber || "User" : "Guest"}!
-      </h1>
-      <p>
-        {currentUser
-          ? "What would you like to do today?"
-          : "You are not logged in. Please log in or sign up to access more features."}
-      </p>
+    <div style={{ textAlign: "center", padding: "50px", fontFamily: "Arial, sans-serif" }}>
+      {/* Logout button in the top-right corner */}
+      {currentUser && (
+        <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: "10px 15px",
+              backgroundColor: "#f44336",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Logout
+          </button>
+        </div>
+      )}
 
-      {/* Options for logged-in and non-logged-in users */}
-      <div style={{ margin: "20px 0" }}>
-        <button
-          onClick={handleGiftProfile}
-          style={{ marginRight: "10px", padding: "10px 20px" }}
-        >
-          Build My Gift Profile
-        </button>
-        <input
-          type="text"
-          placeholder="Search for a friend by their username of phone number"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ marginRight: "10px", padding: "10px" }}
-        />
-        <button onClick={handleSearch} style={{ padding: "10px 20px" }}>
-          Search
-        </button>
-      </div>
+      {/* Main welcome message */}
+      <h1>Welcome {currentUser ? currentUser.phoneNumber : "guest"}</h1>
 
-      {/* Links for non-logged-in users */}
+      {/* Description for new visitors */}
       {!currentUser && (
-        <div style={{ marginTop: "20px" }}>
-          <Link to="/signup">
-            <button style={{ marginRight: "10px", padding: "10px 20px" }}>
-              Sign Up
+        <p style={{ marginBottom: "30px", fontSize: "18px", color: "#555" }}>
+          This is simple site for Wilfredo, friends, and friends of friends. Build your Gyft list and let wonder unfold.
+          <br /><br />
+          Here's what you can do:
+          <ol style={{ textAlign: "left", display: "inline-block", margin: "20px 0" }}>
+            <li>Add gift ideas to your Gyft list.</li>
+            <li>Share your Gyft list with family, friends, and your boss if you like him.</li>
+            <li>View someone else's Gyft list if they've shared it with you.</li>
+          </ol>
+        </p>
+      )}
+
+      {/* Logged-in options */}
+      {currentUser ? (
+        <div>
+          <p style={{ fontSize: "18px", color: "#333" }}>What would you like to do today?</p>
+          <div style={{ margin: "20px 0" }}>
+            <button
+              onClick={handleAddGift}
+              style={{ marginRight: "10px", padding: "10px 20px", cursor: "pointer" }}
+            >
+              Add a New Gift
             </button>
-          </Link>
+            <button
+              onClick={handleViewWishes}
+              style={{ marginRight: "10px", padding: "10px 20px", cursor: "pointer" }}
+            >
+              View Default Wishes
+            </button>
+            <button
+              onClick={handleShareLink}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#4caf50",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Copy Share Link
+            </button>
+          </div>
+        </div>
+      ) : (
+        // Non-logged-in actions
+        <div>
           <Link to="/login">
-            <button style={{ padding: "10px 20px" }}>Login</button>
+            <button
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#2196f3",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Build my Gyft list now!
+            </button>
           </Link>
         </div>
       )}

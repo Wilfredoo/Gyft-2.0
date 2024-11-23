@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard";
 import GiftProfile from "./components/GiftProfile";
 import FriendSearch from "./components/FriendSearch";
