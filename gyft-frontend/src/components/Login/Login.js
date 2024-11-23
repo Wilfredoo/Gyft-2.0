@@ -22,14 +22,12 @@ function Login() {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
 
-
-
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "recaptcha-container",
         { size: "invisible" },
-        auth
       );
       window.recaptchaVerifier.render();
     }

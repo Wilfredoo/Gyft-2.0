@@ -46,10 +46,8 @@ function LandingPage() {
         </div>
       )}
 
-      {/* Main welcome message */}
       <h1>Welcome {currentUser ? currentUser.phoneNumber : "guest"}</h1>
 
-      {/* Description for new visitors */}
       {!currentUser && (
         <p style={{ marginBottom: "30px", fontSize: "18px", color: "#555" }}>
           This is simple site for Wilfredo, friends, and friends of friends. Build your Gyft list and let wonder unfold.
@@ -63,7 +61,6 @@ function LandingPage() {
         </p>
       )}
 
-      {/* Logged-in options */}
       {currentUser ? (
         <div>
           <p style={{ fontSize: "18px", color: "#333" }}>What would you like to do today?</p>
