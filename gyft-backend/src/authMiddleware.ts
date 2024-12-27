@@ -6,7 +6,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export const verifyFirebaseIdToken = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
-    console.log("verifyFirebaseIdToken verifyFirebaseIdToken verifyFirebaseIdToken")
+    console.log("verifyFirebaseIdToken before anything")
     const authorization = req.headers.authorization;
     if (!authorization || !authorization.startsWith('Bearer ')) {
         res.status(401).json({ code: 'AUTH_MISSING_TOKEN', message: 'No token provided' });

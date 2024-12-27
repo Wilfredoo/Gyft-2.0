@@ -20,7 +20,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "firebase-admin": "^12.7.0",
-    "mongoose": "^8.8.0"
+    "mongoose": "^8.8.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
